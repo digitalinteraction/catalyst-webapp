@@ -24,7 +24,7 @@ function makeMeta(pageName) {
 }
 
 export function makeRouter(store) {
-  let router = new Router({
+  const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [

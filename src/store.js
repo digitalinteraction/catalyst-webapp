@@ -50,7 +50,7 @@ export function makeStore() {
         // Wait for a connection & send buffered messages
         // TODO - It shouldn't mutate the state asynchronously
         socket.addEventListener('open', () => {
-          for (let msg of state.bufferedSocketMessages) {
+          for (const msg of state.bufferedSocketMessages) {
             socket.send(msg)
           }
           state.bufferedSocketMessages = []
@@ -60,7 +60,7 @@ export function makeStore() {
     actions: {
       async fetchProjects({ commit, getters }) {
         try {
-          let { data } = await apiClient('projects', getters.apiConf).json()
+          const { data } = await apiClient('projects', getters.apiConf).json()
           commit(MUTATION_PROJECTS, data)
         } catch (error) {
           console.error(error)
@@ -68,7 +68,7 @@ export function makeStore() {
       },
       async fetchBrowsing({ commit, getters }) {
         try {
-          let { data } = await apiClient('browse', getters.apiConf).json()
+          const { data } = await apiClient('browse', getters.apiConf).json()
           commit(MUTATION_BROWSE, data)
         } catch (error) {
           console.error(error)
@@ -76,7 +76,7 @@ export function makeStore() {
       },
       async fetchContent({ commit, getters }) {
         try {
-          let { data } = await apiClient('content', getters.apiConf).json()
+          const { data } = await apiClient('content', getters.apiConf).json()
           commit(MUTATION_CONTENT, data)
         } catch (error) {
           console.error(error)

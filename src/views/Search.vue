@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     queryProject(project, query) {
-      let regex = new RegExp(query.trim(), 'gi')
+      const regex = new RegExp(query.trim(), 'gi')
       const predicate = string => regex.test(string)
       const relationPredicate = rel => predicate(rel.name)
 

@@ -18,8 +18,7 @@ module.exports = {
     extract: process.env.NODE_ENV === 'production',
     loaderOptions: {
       sass: {
-        indentedSyntax: true,
-        data: '@import "~@/sass/shared.sass"'
+        prependData: '@import "~@/sass/shared.sass"'
       }
     }
   },

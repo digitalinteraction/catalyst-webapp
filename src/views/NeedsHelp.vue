@@ -54,8 +54,8 @@ export default {
   computed: {
     allNeeds() {
       const needs = new Set()
-      for (let project of this.$store.state.projects) {
-        for (let need of project.needs) {
+      for (const project of this.$store.state.projects) {
+        for (const need of project.needs) {
           needs.add(need.name)
         }
       }

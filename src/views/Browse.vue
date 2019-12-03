@@ -76,11 +76,11 @@ export default {
           return `#${mode.filter}`
         }
         case 'need': {
-          let need = this.$store.getters.getContent(`need.${mode.filter}`)
+          const need = this.$store.getters.getContent(`need.${mode.filter}`)
           return `Needs ${need || this.capitalize(mode.filter)}`
         }
         case 'category': {
-          let category = CategoryData[mode.filter]
+          const category = CategoryData[mode.filter]
           return category ? category.name : mode.filter
         }
         default: {
