@@ -4,29 +4,36 @@
 </template>
 
 <script>
-import { MUTATION_SOCKET } from '@/const'
+import {
+  ACTION_FETCH_PROJECTS,
+  ACTION_FETCH_LABELS,
+  ACTION_FETCH_CONTENT,
+  ACTION_EMIT_MESSAGE,
+  ACTION_REGISTER_SOCKET
+} from '@/const'
 
 export default {
   mounted() {
     // Wait for next tick to allow for hydration (TODO: find a better way)
     // Uses less than 2 as the SSR route for /project/:id returns a single proj
     this.$nextTick(() => {
-      const { projects = [], content } = this.$store.state
+      const { projects, labels, content } = this.$store.state
 
       // Fetch content if not hydrated
-      if (projects.length < 2) this.$store.dispatch('fetchProjects')
-      if (!content) this.$store.dispatch('fetchContent')
+      if (!projects) this.$store.dispatch(ACTION_FETCH_PROJECTS)
+      if (!labels) this.$store.dispatch(ACTION_FETCH_LABELS)
+      if (!content) this.$store.dispatch(ACTION_FETCH_CONTENT)
 
       // Create a websocket if they are available
       if (typeof WebSocket !== 'undefined') {
-        this.$store.commit(
-          MUTATION_SOCKET,
-          new WebSocket(this.socketUrl(this.$store.state.apiUrl))
+        this.$store.dispatch(
+          ACTION_REGISTER_SOCKET,
+          new WebSocket(this.socketUrl(this.$store.state.api.url))
         )
 
         // Emit the first page view (as this occurs after router.beforeEach)
         const path = location.pathname
-        this.$store.dispatch('emitMessage', { type: 'page_view', path })
+        this.$store.dispatch(ACTION_EMIT_MESSAGE, { type: 'page_view', path })
       }
     })
   },

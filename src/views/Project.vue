@@ -2,11 +2,12 @@
 .page.project(v-if="project")
   PrimaryHero(:class="colorClass")
   
-  .container
-    nav.breadcrumb.has-text-weight-bold
-      ul
-        li: router-link(to="/") Home
-        li.is-active: a(href="#") View project
+  section.crumbs
+    .container
+      nav.breadcrumb.has-text-weight-bold
+        ul
+          li: router-link(to="/") Home
+          li.is-active: a(href="#") View project
   
   section.section.page-expand
     .container

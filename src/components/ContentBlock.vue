@@ -6,14 +6,18 @@
 
 <script>
 import marked from 'marked'
+import { GETTER_CONTENT } from '@/const'
 
 export default {
   props: {
-    contentKey: { type: String, required: true }
+    contentKey: { type: String, required: true },
+    fallback: { type: String, default: '' }
   },
   computed: {
     content() {
-      return marked(this.$store.getters.getContent(this.contentKey) || '')
+      return marked(
+        this.$store.getters[GETTER_CONTENT](this.contentKey) || this.fallback
+      )
     }
   }
 }

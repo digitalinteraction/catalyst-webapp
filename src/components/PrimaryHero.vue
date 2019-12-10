@@ -6,10 +6,8 @@
         .navbar-brand
           router-link.navbar-item(to="/")
             img(src="@/assets/brand.png")
-        .navbar-end.is-hidden-touch
-          router-link.navbar-item(to="/browse", active-class="is-active") Browse
-          router-link.navbar-item(to="/search", active-class="is-active") Search
-          router-link.navbar-item(to="/needs-help", active-class="is-active") Partner needed
+        .navbar-end
+          router-link.navbar-item(to="/about", active-class="is-active") About
   .hero-body(v-if="$slots.default")
     .container
       slot

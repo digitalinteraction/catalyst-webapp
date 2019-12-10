@@ -2,17 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from './views/Home.vue'
-import Browse from './views/Browse.vue'
-import Search from './views/Search.vue'
-import NeedsHelp from './views/NeedsHelp.vue'
+import About from './views/About.vue'
+// import Browse from './views/Browse.vue'
+// import Search from './views/Search.vue'
+// import NeedsHelp from './views/NeedsHelp.vue'
 import Project from './views/Project.vue'
 
 import {
   ROUTE_HOME,
-  ROUTE_BROWSE,
-  ROUTE_SEARCH,
-  ROUTE_NEEDS_HELP,
-  ROUTE_PROJECT
+  ROUTE_ABOUT,
+  ROUTE_PROJECT,
+  ACTION_EMIT_MESSAGE
 } from '@/const'
 
 Vue.use(Router)
@@ -35,22 +35,10 @@ export function makeRouter(store) {
         ...makeMeta('Home')
       },
       {
-        path: '/browse',
-        name: ROUTE_BROWSE,
-        component: Browse,
-        ...makeMeta('Browse')
-      },
-      {
-        path: '/search',
-        name: ROUTE_SEARCH,
-        component: Search,
-        ...makeMeta('Search')
-      },
-      {
-        path: '/needs-help',
-        name: ROUTE_NEEDS_HELP,
-        component: NeedsHelp,
-        ...makeMeta('Needs Help')
+        path: '/about',
+        name: ROUTE_ABOUT,
+        component: About,
+        ...makeMeta('Home')
       },
       {
         path: '/project/:id',
@@ -58,24 +46,13 @@ export function makeRouter(store) {
         component: Project,
         ...makeMeta('Project')
       }
-    ],
-    scrollBehavior(to, from, savedPosition) {
-      // Go to the top when going from '/' to '/browse'
-      if (to.name === ROUTE_BROWSE && from.name === ROUTE_HOME) {
-        return { x: 0, y: 0 }
-      }
-      // Go to the top if navigating from '/browse'
-      if (from.name === ROUTE_BROWSE) {
-        return { x: 0, y: 0 }
-      }
-      return savedPosition
-    }
+    ]
   })
 
   // Emit a page_view when each page is visited
   router.beforeEach((to, from, next) => {
     if (to.path !== from.path) {
-      store.dispatch('emitMessage', { type: 'page_view', path: to.path })
+      store.dispatch(ACTION_EMIT_MESSAGE, { type: 'page_view', path: to.path })
     }
     next()
   })
