@@ -12,7 +12,8 @@ module.exports = {
   // plugins: ['standard', 'prettier'],
   rules: {
     'prettier/prettier': 'warn',
-    'no-console': 'off'
+    'no-console': 'off',
+    'no-debugger': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'

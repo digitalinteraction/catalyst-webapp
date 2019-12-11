@@ -31,9 +31,7 @@ export default function() {
   const actions = {
     async fetchProjects({ commit, getters, dispatch }) {
       try {
-        const { data } = await apiClient
-          .get('data/cards', getters.apiConf)
-          .json()
+        const { data } = await apiClient.get('cards', getters.apiConf).json()
 
         commit('setProjects', data)
       } catch (error) {
@@ -43,9 +41,7 @@ export default function() {
     },
     async fetchLabels({ commit, getters, dispatch }) {
       try {
-        const { data } = await apiClient
-          .get('data/labels', getters.apiConf)
-          .json()
+        const { data } = await apiClient.get('labels', getters.apiConf).json()
 
         commit('setLabels', data)
       } catch (error) {

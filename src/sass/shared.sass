@@ -14,6 +14,12 @@ $family-monospace: 'SF Mono', Consolas, 'Liberation Mono', Menlo, Courier, monos
 
 $title-weight: 900
 
+@import ~bulma/sass/utilities/_all.sass
+
+=is-title
+  font-color: $text-strong
+  font-weight: 900
+
 =add-theme-colors
   &.is-red
     background-color: $theme-red
@@ -46,5 +52,3 @@ $title-weight: 900
   transition: border-bottom 100ms
   &:focus
     border-bottom: 4px solid $white
-
-@import ~bulma/sass/utilities/_all.sass

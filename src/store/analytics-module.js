@@ -31,7 +31,10 @@ export default function() {
     emitMessage({ state, commit }, payload) {
       const message = JSON.stringify(payload)
 
-      if (!state.socket || state.socket.readyState !== WebSocket.OPEN) {
+      // Do nothing if there is no socket, i.e. running in SSR
+      if (!state.socket) return
+
+      if (state.socket.readyState !== WebSocket.OPEN) {
         commit('bufferMessage', message)
       } else {
         state.socket.send(message)

@@ -6,33 +6,40 @@
         span Find potential projects, get involved
         br
         span and make them happen!
-      //- div.search
+      div.search
         h2.title.is-5.inherit-color
-          label(for="search")
+          label(for="searchField")
             SearchSvg.hero-title-icon
             | Search for a project:
-          input#search(type="search", v-model="searchQuery")
+          input#searchField(type="search", v-model="search")
   .page-expand
     section.section
       .container
-        h2.title.is-2.is-marginless Find projects
+        h2.title.is-2 Find projects
         .columns
           .column.is-one-quarter
-            ProjectFilters(:calls="filters.calls", :themes="filters.themes")
+            ProjectFilters(v-model="filters")
           
           .column.is-three-quarters
             h3.title.is-3 Results
+            p.result-info
+              span(v-if="isFiltering") Showing results for your filters
+              span(v-else) Showing all projects
+            ProjectGrid(:projects="filteredProjects")
   
   PageFooter
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import PrimaryHero from '@/components/PrimaryHero.vue'
 import PageFooter from '@/components/PageFooter.vue'
 import ContentBlock from '@/components/ContentBlock.vue'
 import ProjectFilters from '@/components/ProjectFilters.vue'
+import ProjectGrid from '@/components/ProjectGrid.vue'
 
 import SearchSvg from '@/assets/search.svg'
+import { makePredicate } from '@/utils'
 
 export default {
   components: {
@@ -40,15 +47,27 @@ export default {
     PageFooter,
     ContentBlock,
     SearchSvg,
-    ProjectFilters
+    ProjectFilters,
+    ProjectGrid
   },
   data() {
     return {
-      filters: {
-        search: '',
-        calls: [],
-        themes: []
-      }
+      search: '',
+      filters: {}
+    }
+  },
+  computed: {
+    ...mapState('api', ['projects']),
+    filteredProjects() {
+      if (!this.projects) return []
+      const predicate = makePredicate(this.search, this.filters)
+      return this.projects.filter(predicate)
+    },
+    isFiltering() {
+      return (
+        this.search.length > 0 ||
+        Object.values(this.filters).some(filter => filter.length > 0)
+      )
     }
   }
 }
@@ -59,11 +78,24 @@ export default {
   #search
     max-width: 480px
 
-#search
+.search
+  margin-top: 3em
+
+#searchField
   +header-input
+  margin-left: 0.5em
 
   &::placeholder
     color: $white
     opacity: 0.3
     font-style: italic
+
+.result-info
+  color: $grey
+  font-weight: bold
+  font-size: 1.5em
+  padding: 0.3em 0.5em
+  margin-bottom: 1em
+  border-left: 5px solid $border
+  background: $white-ter
 </style>

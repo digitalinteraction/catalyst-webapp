@@ -1,21 +1,21 @@
 <template lang="pug">
-ColoredCard.project-card(:color="categoryColor", interactable)
+ColoredCard.project-card(:color="category.color", interactable)
   router-link.inherit-color(:to="projectRoute")
     .category-image
-      img(:src="categoryImage", :alt="categoryName")
+      img(:src="categoryImage", :alt="category.name")
     h3.title.inherit-color.is-4.is-marginless {{ project.name }}
     .tags
       .tag.is-white.knockout-text.has-font-weight-black(
-        v-for="theme in project.themes"
-      ) {{theme.name}}
+        v-for="theme in projectThemes"
+        v-text="theme.name"
+      )
 </template>
 
 <script>
 import ColoredCard from './ColoredCard.vue'
 
 import { ROUTE_PROJECT } from '@/const'
-import CategoryData from '@/data/categories.json'
-import ImageMap from '@/data/categoryImages'
+import { getLabels, projectCategory, categoryImage } from '@/utils'
 
 export default {
   components: { ColoredCard },
@@ -24,20 +24,17 @@ export default {
   },
   computed: {
     category() {
-      return this.project.category && CategoryData[this.project.category.name]
-    },
-    categoryColor() {
-      return this.category ? this.category.color : 'blue'
-    },
-    categoryImage() {
-      return (this.category && ImageMap[this.category.id]) || ImageMap.mixed
-    },
-    categoryName() {
-      return this.category ? this.category.name : 'Mixed Category'
+      return projectCategory(this.project)
     },
     projectRoute() {
       const params = { id: this.project.id }
       return { name: ROUTE_PROJECT, params }
+    },
+    categoryImage() {
+      return categoryImage(this.category)
+    },
+    projectThemes() {
+      return getLabels(this.project.labels, 'theme:')
     }
   }
 }
@@ -50,6 +47,7 @@ a
   flex-direction: column
 .title
   flex: 1
+  padding-bottom: 0.5em
 .category-image
   padding: 1em 2em
 +mobile

@@ -36,43 +36,42 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import marked from 'marked'
 
 import PrimaryHero from '@/components/PrimaryHero.vue'
 import PageFooter from '@/components/PageFooter.vue'
 
-import CategoryData from '@/data/categories.json'
-import ImageMap from '@/data/categoryImages'
+import { GETTER_CONTENT } from '@/const'
+import { projectCategory, categoryImage } from '@/utils'
 
 export default {
   components: { PrimaryHero, PageFooter },
   computed: {
+    ...mapState('api', ['projects']),
     projectId() {
       return this.$route.params.id
     },
     project() {
-      return this.$store.state.projects.find(p => p.id === this.projectId)
+      return this.projects.find(p => p.id === this.projectId)
     },
     projectCrumb() {
       return this.project ? this.project.name : 'View Project'
     },
     category() {
-      return (
-        (this.project.category && CategoryData[this.project.category.name]) ||
-        CategoryData.mixed
-      )
+      return projectCategory(this.project)
+    },
+    categoryImage() {
+      return categoryImage(this.category)
     },
     colorClass() {
       return [this.category && `is-${this.category.color}`]
-    },
-    categoryImage() {
-      return (this.category && ImageMap[this.category.id]) || ImageMap.mixed
     },
     projectContent() {
       return marked(this.project.desc)
     },
     aboutContent() {
-      return marked(this.$store.getters.getContent('about.short', '...'))
+      return marked(this.$store.getters[GETTER_CONTENT]('about.short', '...'))
     }
   },
   methods: {
@@ -130,4 +129,8 @@ export default {
       color: inherit
       font-weight: bold
       text-decoration: underline
+
+    blockquote
+      border-left-color: rgba(255, 255, 255, 0.4)
+      background: rgba(0, 0, 0, 0.05)
 </style>

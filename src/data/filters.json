@@ -1,0 +1,20 @@
+[
+  {
+    "id": "call",
+    "title": "Call for proposal",
+    "prefix": "call:",
+    "logic": "or"
+  },
+  {
+    "id": "focus",
+    "title": "Project focus",
+    "prefix": "focus:",
+    "logic": "or"
+  },
+  {
+    "id": "theme",
+    "title": "Keywords",
+    "prefix": "theme:",
+    "logic": "and"
+  }
+]

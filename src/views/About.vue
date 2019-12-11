@@ -13,8 +13,7 @@
   
   .page-expand
     section.section
-      .container
-        ContentBlock(content-key="about.long")
+      ContentBlock(content-key="about.long")
   PageFooter
 </template>
 

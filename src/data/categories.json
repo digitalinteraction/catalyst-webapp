@@ -2,21 +2,36 @@
   "algorithms": {
     "id": "algorithms",
     "name": "Algorithmic Social Justice",
-    "color": "red"
+    "image": "algorithms.png",
+    "color": "red",
+    "match": ["call:a-1", "call:a-2", "call:a-3"]
   },
   "security": {
     "id": "security",
     "name": "Digital Security for all",
-    "color": "green"
+    "image": "security.png",
+    "color": "green",
+    "match": ["call:b-1", "call:b-2", "call:b-3"]
   },
   "fairness": {
     "id": "fairness",
     "name": "Fairer futures for business + workforce",
-    "color": "yellow"
+    "image": "fairness.png",
+    "color": "yellow",
+    "match": ["call:c-1", "call:c-2", "call:c-3"]
   },
   "mixed": {
     "id": "mixed",
     "name": "Cross-cutting",
-    "color": "blue"
+    "image": "mixed.png",
+    "color": "blue",
+    "match": ["call:d-1", "call:d-2", "call:d-3"]
+  },
+  "_fallback": {
+    "id": "fallback",
+    "name": "Mixed",
+    "image": "mixed.png",
+    "color": "blue",
+    "match": []
   }
 }
