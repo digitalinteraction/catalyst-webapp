@@ -3,19 +3,17 @@
   PrimaryHero.is-gradient
     div.info
       h1.title.inherit-color.is-size-4-mobile
-        span Find potential projects, get involved
-        br
-        span and make them happen!
-      div.search
-        h2.title.is-5.inherit-color
-          label(for="searchField")
-            SearchSvg.hero-title-icon
-            | Search for a project:
-          input#searchField(type="search", :value="search" @input="onSearch")
+        span {{ strapline }}
+    div.search
+      h2.title.is-5.inherit-color
+        label(for="searchField")
+          SearchSvg.hero-title-icon
+          | Search for a project:
+        input#searchField(type="search", :value="search" @input="onSearch")
   .page-expand
     section.section
       .container
-        h2.title.is-2 Find projects
+        h2.title.is-2 {{ title }}
         .columns
           .column.is-one-quarter
             ProjectFilters(:value="filters" @input="onFilter")
@@ -43,7 +41,12 @@ import ProjectGrid from '@/components/ProjectGrid.vue'
 
 import SearchSvg from '@/assets/search.svg'
 import { makePredicate, serializeQuery, deserializeQuery } from '@/utils'
-import { ROUTE_HOME, MUTATION_SEARCH, MUTATION_FILTERS } from '@/const'
+import {
+  ROUTE_HOME,
+  GETTER_CONTENT,
+  MUTATION_SEARCH,
+  MUTATION_FILTERS
+} from '@/const'
 
 export default {
   components: {
@@ -81,6 +84,12 @@ export default {
     },
     noResults() {
       return this.filteredProjects.length === 0
+    },
+    title() {
+      return this.$store.getters[GETTER_CONTENT]('home.title')
+    },
+    strapline() {
+      return this.$store.getters[GETTER_CONTENT]('home.strapline')
     }
   },
   created() {
@@ -129,4 +138,8 @@ export default {
   margin-bottom: 1em
   border-left: 5px solid $border
   background: $white-ter
+
+.info
+  +desktop
+    width: 50%
 </style>
