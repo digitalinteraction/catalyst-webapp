@@ -200,10 +200,19 @@ There are some required environment variables, shown below.
 
 There are some optional variables too:
 
-| Variable | Description                                  |
-| -------- | -------------------------------------------- |
-| APP_NAME | Set the app's name, used in opengraph        |
-| APP_INFO | Set the app's description, used in opengraph |
+| Variable       | Description                                           |
+| -------------- | ----------------------------------------------------- |
+| APP_NAME       | Set the app's name, used in opengraph                 |
+| APP_INFO       | Set the app's description, used in opengraph          |
+| TWITTER_HANDLE | The twitter handle of the project (used in opengraph) |
+
+There are files you can override with bind-mounts
+
+| Path                        | File                                       |
+| --------------------------- | ------------------------------------------ |
+| `/app/public/favicon.png`   | The site's favicon                         |
+| `/app/public/opengraph.png` | The site's opengraph image e.g. for tweets |
+| `/app/public/categories/*`  | Custom category images                     |
 
 ## Future work
 

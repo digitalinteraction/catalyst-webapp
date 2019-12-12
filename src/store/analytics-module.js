@@ -1,8 +1,8 @@
 export default function() {
-  const state = {
+  const state = () => ({
     socket: null,
     bufferedMessages: []
-  }
+  })
 
   const getters = {}
 

@@ -1,38 +1,38 @@
 <template lang="pug">
-.page.project(v-if="project")
-  PrimaryHero(:class="colorClass")
-  
-  section.crumbs
-    .container
-      nav.breadcrumb.has-text-weight-bold
-        ul
-          li: router-link(to="/") Home
-          li.is-active: a(href="#") View project
-  
-  section.section.page-expand
-    .container
-      .project-detail
-        .columns.is-gapless
-          .column.is-two-thirds
-            .project-detail-card(:class="colorClass")
-              .columns
-                .column
-                  h1.title.inherit-color {{ project.name }}
-                .column.is-narrow
-                  img.category-image(:src="categoryImage")
-              .content(
-                ref="projectContent",
-                v-html="projectContent",
-                @click="contentClick"
-              )
-              .tags
-                .tag.is-white.knockout-text.has-font-weight-black(
-                  v-for="theme in project.themes"
-                ) {{theme.name}}
-          .column
-            .content.what-is-this(v-html="aboutContent")
-  
-  PageFooter
+.page.project
+  template
+    PrimaryHero(:class="colorClass")
+    
+    section.crumbs
+      .container
+        nav.breadcrumb.has-text-weight-bold
+          ul
+            li: router-link(to="/") Home
+            li.is-active: a(href="#") View project
+    
+    section.section.page-expand
+      .container
+        .project-detail
+          .columns.is-gapless
+            .column.is-two-thirds
+              .project-detail-card(:class="colorClass")
+                .columns
+                  .column
+                    h1.title.inherit-color {{ project.name }}
+                  .column.is-narrow
+                    img.category-image(:src="categoryImage")
+                .content(
+                  ref="projectContent",
+                  v-html="projectContent",
+                  @click="contentClick"
+                )
+                .tags
+                  .tag.is-white.knockout-text.has-font-weight-black(
+                    v-for="theme in project.themes"
+                  ) {{theme.name}}
+            .column
+              .content.what-is-this(v-html="aboutContent")
+    PageFooter
 </template>
 
 <script>

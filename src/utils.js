@@ -37,7 +37,7 @@ export function projectCategory(project) {
 
 /** Generate a URL for a category image */
 export function categoryImage(category) {
-  return `${process.env.BASE_URL}categories/${category.image}`
+  return `${process.env.BASE_URL}public/categories/${category.image}`
 }
 
 /** Create a new array with a value removed if it is present or added if not */

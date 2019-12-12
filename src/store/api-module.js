@@ -5,12 +5,12 @@ import { ACTION_EMIT_ERROR } from '@/const'
 export default function() {
   const apiClient = makeApiClient()
 
-  const state = {
+  const state = () => ({
     projects: null,
     labels: null,
     content: null,
     url: process.env.VUE_APP_API_URL
-  }
+  })
 
   const getters = {
     apiConf(state) {

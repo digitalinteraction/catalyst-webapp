@@ -16,7 +16,7 @@ export function makeStore() {
       analytics: makeAnalyticsModule(),
       filter: makeFiltersModule()
     },
-    state: {},
+    state: () => ({}),
     getters: {},
     mutations: {},
     actions: {}

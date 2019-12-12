@@ -37,6 +37,4 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.page.about
-</style>
+<style lang="sass" scoped></style>
