@@ -13,6 +13,9 @@ export const MUTATION_SOCKET = 'analytics/setSocket'
 export const MUTATION_BUFFER_MSG = 'analytics/bufferMessage'
 export const MUTATION_RESET_BUFFER = 'analytics/resetBuffer'
 
+export const MUTATION_SEARCH = 'filter/search'
+export const MUTATION_FILTERS = 'filter/filters'
+
 export const GETTER_CONTENT = 'api/getContent'
 
 export const ACTION_FETCH_PROJECTS = 'api/fetchProjects'

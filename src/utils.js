@@ -110,3 +110,26 @@ export function makePredicate(search, filters) {
     return true
   }
 }
+
+export function serializeQuery(search, filters) {
+  const query = {}
+
+  if (search.length > 0) query.search = search
+
+  for (const key in filters) {
+    if (filters[key].length === 0) continue
+    query[key] = filters[key].join(',')
+  }
+
+  return query
+}
+
+export function deserializeQuery(query) {
+  const { search = '', ...filters } = query
+
+  for (const key in filters) {
+    filters[key] = filters[key].split(',')
+  }
+
+  return [search, filters]
+}
