@@ -12,10 +12,12 @@ ColoredCard.project-card(:color="category.color", interactable)
 </template>
 
 <script>
-import ColoredCard from './ColoredCard.vue'
+import { mapState } from 'vuex'
 
 import { ROUTE_PROJECT } from '@/const'
+
 import { getLabels, projectCategory, categoryImage } from '@/utils'
+import ColoredCard from './ColoredCard.vue'
 
 export default {
   components: { ColoredCard },
@@ -23,15 +25,17 @@ export default {
     project: { type: Object, required: true }
   },
   computed: {
+    ...mapState('config', ['categories']),
     category() {
-      return projectCategory(this.project)
+      return projectCategory(this.project, this.categories)
     },
     projectRoute() {
       const params = { id: this.project.id }
       return { name: ROUTE_PROJECT, params }
     },
     categoryImage() {
-      return categoryImage(this.category)
+      const { publicPath } = this.$store.state.config
+      return categoryImage(this.category, publicPath)
     },
     projectThemes() {
       return getLabels(this.project.labels, 'theme:')
@@ -49,7 +53,8 @@ a
   flex: 1
   padding-bottom: 0.5em
 .category-image
-  padding: 1em 2em
+  margin: 1em 2em
+
 +mobile
   .project-card a
     flex-wrap: wrap

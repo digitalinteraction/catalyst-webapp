@@ -1,17 +1,16 @@
+import categories from '@/data/categories.json'
+import filters from '@/data/filters.json'
+
 export default function(initialState = {}) {
   const state = () => ({
-    filters: {},
-    search: '',
+    publicPath: '',
+    categories,
+    filters,
     ...initialState
   })
 
   const getters = {}
-
-  const mutations = {
-    search: (state, search) => Object.assign(state, { search }),
-    filters: (state, filters) => Object.assign(state, { filters })
-  }
-
+  const mutations = {}
   const actions = {}
 
   return {

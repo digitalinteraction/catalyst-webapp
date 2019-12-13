@@ -2,15 +2,17 @@ import { makeApp } from './app'
 
 export default context => {
   return new Promise((resolve, reject) => {
-    const { app, router, store } = makeApp()
+    const { app, router, store } = makeApp(context)
 
     router.push(context.url)
 
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
 
+      // Once rendered, update our state object
+      // to be passed to window.__INITIAL_STATE__
       context.rendered = () => {
-        context.state = { ...store.state, ...context.state }
+        context.state = store.state
       }
 
       if (matchedComponents.length === 0) {

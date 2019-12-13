@@ -5,8 +5,8 @@ import { makeStore } from './store'
 import { ACTION_EMIT_ERROR } from './const'
 import { sync } from 'vuex-router-sync'
 
-export function makeApp() {
-  const store = makeStore()
+export function makeApp(context = {}) {
+  const store = makeStore(context.state)
   const router = makeRouter(store)
 
   Vue.config.productionTip = false

@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import marked from 'marked'
 
 import PrimaryHero from '@/components/PrimaryHero.vue'
@@ -44,25 +43,28 @@ import PageFooter from '@/components/PageFooter.vue'
 
 import { GETTER_CONTENT } from '@/const'
 import { projectCategory, categoryImage } from '@/utils'
+import { mapState } from 'vuex'
 
 export default {
   components: { PrimaryHero, PageFooter },
   computed: {
     ...mapState('api', ['projects']),
+    ...mapState('config', ['categories']),
     projectId() {
       return this.$route.params.id
     },
     project() {
-      return this.projects.find(p => p.id === this.projectId)
+      return this.projects && this.projects.find(p => p.id === this.projectId)
     },
     projectCrumb() {
       return this.project ? this.project.name : 'View Project'
     },
     category() {
-      return projectCategory(this.project)
+      return projectCategory(this.project, this.categories)
     },
     categoryImage() {
-      return categoryImage(this.category)
+      const { publicPath } = this.$store.state.config
+      return categoryImage(this.category, publicPath)
     },
     colorClass() {
       return [this.category && `is-${this.category.color}`]
@@ -71,7 +73,7 @@ export default {
       return marked(this.project.desc)
     },
     aboutContent() {
-      return marked(this.$store.getters[GETTER_CONTENT]('about.short', '...'))
+      return marked(this.$store.getters[GETTER_CONTENT]('about.short', ''))
     }
   },
   methods: {

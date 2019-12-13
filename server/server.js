@@ -2,7 +2,6 @@ const { resolve } = require('path')
 
 const express = require('express')
 const favicon = require('serve-favicon')
-const redis = require('redis')
 
 const { renderVueApp, makeVueState } = require('./vue')
 const { generateMeta } = require('./utils')
@@ -28,7 +27,6 @@ function makeServer(redisClient, renderer) {
     const state = await makeVueState(redisClient, API_URL)
 
     const project = state.api.projects.find(p => p.id === req.params.id)
-    // state.api.projects = [project]
 
     // If the project wasn't found, try another route
     if (!project) return next()

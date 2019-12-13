@@ -2,14 +2,17 @@ import { makeApiClient } from '@api'
 
 import { ACTION_EMIT_ERROR } from '@/const'
 
-export default function() {
-  const apiClient = makeApiClient()
+export default function(initialState = {}) {
+  const apiClient = makeApiClient(
+    initialState.url || process.env.VUE_APP_API_URL
+  )
 
   const state = () => ({
     projects: null,
     labels: null,
     content: null,
-    url: process.env.VUE_APP_API_URL
+    url: process.env.VUE_APP_API_URL,
+    ...initialState
   })
 
   const getters = {
@@ -31,7 +34,7 @@ export default function() {
   const actions = {
     async fetchProjects({ commit, getters, dispatch }) {
       try {
-        const { data } = await apiClient.get('cards', getters.apiConf).json()
+        const { data } = await apiClient.projects()
 
         commit('setProjects', data)
       } catch (error) {
@@ -41,7 +44,7 @@ export default function() {
     },
     async fetchLabels({ commit, getters, dispatch }) {
       try {
-        const { data } = await apiClient.get('labels', getters.apiConf).json()
+        const { data } = await apiClient.labels()
 
         commit('setLabels', data)
       } catch (error) {
@@ -51,7 +54,7 @@ export default function() {
     },
     async fetchContent({ commit, getters, dispatch }) {
       try {
-        const { data } = await apiClient.get('content', getters.apiConf).json()
+        const { data } = await apiClient.content()
 
         commit('setContent', data)
       } catch (error) {

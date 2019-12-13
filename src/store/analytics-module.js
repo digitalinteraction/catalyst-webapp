@@ -1,4 +1,4 @@
-export default function() {
+export default function(initialState = {}) {
   const state = () => ({
     socket: null,
     bufferedMessages: []

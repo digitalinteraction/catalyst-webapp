@@ -1,6 +1,4 @@
 import casex from 'casex'
-import categoryData from '@/data/categories.json'
-import filtersData from '@/data/filters.json'
 
 // Types:
 // type Filters = { [idx: string]: string[] }
@@ -23,21 +21,20 @@ export function convertLabel(label, prefix) {
 }
 
 /** Work out the category of a project based on it's labels and a category.match */
-export function projectCategory(project) {
+export function projectCategory(project, categoryConfig) {
   for (const label of project.labels) {
-    for (const category of Object.values(categoryData)) {
+    for (const category of Object.values(categoryConfig)) {
       if (category.match.some(match => label.name === match)) {
         return category
       }
     }
   }
-
-  return categoryData._fallback
+  return categoryConfig._fallback
 }
 
 /** Generate a URL for a category image */
-export function categoryImage(category) {
-  return `${process.env.BASE_URL}public/categories/${category.image}`
+export function categoryImage(category, subdir) {
+  return `${process.env.BASE_URL}${subdir}categories/${category.image}`
 }
 
 /** Create a new array with a value removed if it is present or added if not */
@@ -57,8 +54,8 @@ export function cloneFilters(filters) {
   return newFilters
 }
 
-function findFilterData(filterId) {
-  return filtersData.find(f => f.id === filterId)
+function findFilterData(filterId, filterConfig) {
+  return filterConfig.find(f => f.id === filterId)
 }
 
 function searchProject(project, query) {
@@ -80,14 +77,14 @@ function searchProject(project, query) {
  * @param {string} search
  * @param {[idx: string]: string[]} filters
  */
-export function makePredicate(search, filters) {
+export function makePredicate(search, filters, filterConfig) {
   // const filterLabels = new Set(Object.values(filters).flat())
 
   return project => {
     if (search.length > 0 && !searchProject(project, search)) return false
 
     for (const [filterId, labelIds] of Object.entries(filters)) {
-      const { logic } = findFilterData(filterId) || {}
+      const { logic } = findFilterData(filterId, filterConfig) || {}
 
       if (!logic || labelIds.length === 0) continue
 

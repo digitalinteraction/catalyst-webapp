@@ -2,7 +2,7 @@
 .projectFilters
   h3.projectFilters-title Filter
 
-  template(v-for="filter in allFilters")
+  template(v-for="filter in filters")
     .field
       h4.projectFilters-heading(@click="toggleFilter(filter)")
         span {{ filter.title }}
@@ -21,12 +21,13 @@
 
 <script>
 import { mapState } from 'vuex'
-import allFilters from '@/data/filters.json'
 import { getLabels, toggleArrayValue, cloneFilters } from '@/utils'
 
 /** Generate the default empty filters where each key is set to an empty array */
-function emptyFilters() {
-  return allFilters.map(f => f.id).reduce((m, k) => ({ ...m, [k]: [] }), {})
+function emptyFilters(filters) {
+  return filters
+    .map(f => f.id)
+    .reduce((newFilters, key) => ({ ...newFilters, [key]: [] }), {})
 }
 
 export default {
@@ -34,13 +35,14 @@ export default {
     value: { type: Object, required: true }
   },
   data() {
-    return { allFilters, collapsedFilters: [] }
+    return { collapsedFilters: [] }
   },
   computed: {
     ...mapState('api', ['labels']),
+    ...mapState('config', ['filters']),
     userFilters() {
       return {
-        ...emptyFilters(),
+        ...emptyFilters(this.filters),
         ...cloneFilters(this.value)
       }
     }
@@ -71,7 +73,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 .projectFilters
   margin-bottom: 0.2em
 

@@ -1,5 +1,5 @@
 <template lang="pug">
-#app
+#app(v-if="isReady")
   router-view
 </template>
 
@@ -13,12 +13,16 @@ import {
 } from '@/const'
 
 export default {
+  computed: {
+    isReady() {
+      const { projects, labels, content } = this.$store.state.api
+      return projects && labels && content
+    }
+  },
   mounted() {
-    console.log(JSON.stringify(this.$store.state))
-
     // Wait for next tick to allow for hydration
     this.$nextTick(() => {
-      const { projects, labels, content } = this.$store.state
+      const { projects, labels, content } = this.$store.state.api
 
       // Fetch content if not hydrated
       if (!projects) this.$store.dispatch(ACTION_FETCH_PROJECTS)

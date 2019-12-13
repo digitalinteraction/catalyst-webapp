@@ -5,7 +5,6 @@ const nodeExternals = require('webpack-node-externals')
 process.env.VUE_APP_VERSION = require('./package.json').version
 
 const TARGET_NODE = process.env.WEBPACK_TARGET === 'node'
-
 const target = TARGET_NODE ? 'server' : 'client'
 
 module.exports = {

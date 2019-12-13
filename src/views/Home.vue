@@ -71,9 +71,14 @@ export default {
   computed: {
     ...mapState('api', ['projects']),
     ...mapState('filter', ['search', 'filters']),
+    ...mapState('config', { filterConfig: state => state.filters }),
     filteredProjects() {
       if (!this.projects) return []
-      const predicate = makePredicate(this.search, this.filters)
+      const predicate = makePredicate(
+        this.search,
+        this.filters,
+        this.filterConfig
+      )
       return this.projects.filter(predicate)
     },
     isFiltering() {
