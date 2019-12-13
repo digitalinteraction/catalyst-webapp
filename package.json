@@ -21,6 +21,7 @@
     "webapp"
   ],
   "dependencies": {
+    "@babel/polyfill": "^7.7.0",
     "casex": "^3.0.0",
     "core-js": "^3.4.3",
     "dotenv": "^8.2.0",
