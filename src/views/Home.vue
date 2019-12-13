@@ -45,7 +45,8 @@ import {
   ROUTE_HOME,
   GETTER_CONTENT,
   MUTATION_SEARCH,
-  MUTATION_FILTERS
+  MUTATION_FILTERS,
+  ACTION_EMIT_MESSAGE
 } from '@/const'
 
 export default {
@@ -64,8 +65,13 @@ export default {
         this.setQuery(event.target.value, this.filters)
       }, 300),
       setQuery: debounce((search, filters) => {
+        this.$store.dispatch(ACTION_EMIT_MESSAGE, {
+          type: 'search_action',
+          search,
+          filters
+        })
         this.updateUrlParams(serializeQuery(search, filters))
-      }, 10)
+      }, 1000)
     }
   },
   computed: {
