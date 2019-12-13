@@ -53,7 +53,7 @@ a
   flex: 1
   padding-bottom: 0.5em
 .category-image
-  margin: 1em 2em
+  padding: 1em 2em
 
 +mobile
   .project-card a
