@@ -216,7 +216,10 @@ There are files you can override with bind-mounts
 
 ## Future work
 
-> Coming soon
+- Move public mirror to `digitalinteraction/catalyst-webapp`
+- Push docker images to dockerhub
+- Use [conventionalcommits](https://www.conventionalcommits.org/en/v1.0.0/)
+  and setup [commitlint](https://www.npmjs.com/package/@commitlint/cli)
 
 ---
 
