@@ -1,37 +1,38 @@
 <template lang="pug">
-.page.project(v-if="project")
-  PrimaryHero(:class="colorClass")
-  
-  .container
-    nav.breadcrumb.has-text-weight-bold
-      ul
-        li: router-link(to="/") Home
-        li.is-active: a(href="#") View project
-  
-  section.section.page-expand
-    .container
-      .project-detail
-        .columns.is-gapless
-          .column.is-two-thirds
-            .project-detail-card(:class="colorClass")
-              .columns
-                .column
-                  h1.title.inherit-color {{ project.name }}
-                .column.is-narrow
-                  img.category-image(:src="categoryImage")
-              .content(
-                ref="projectContent",
-                v-html="projectContent",
-                @click="contentClick"
-              )
-              .tags
-                .tag.is-white.knockout-text.has-font-weight-black(
-                  v-for="theme in project.themes"
-                ) {{theme.name}}
-          .column
-            .content.what-is-this(v-html="aboutContent")
-  
-  PageFooter
+.page.project
+  template
+    PrimaryHero(:class="colorClass")
+    
+    section.crumbs
+      .container
+        nav.breadcrumb.has-text-weight-bold
+          ul
+            li: router-link(to="/") Home
+            li.is-active: a(href="#") View project
+    
+    section.section.page-expand
+      .container
+        .project-detail
+          .columns.is-gapless
+            .column.is-two-thirds
+              .project-detail-card(:class="colorClass")
+                .columns
+                  .column
+                    h1.title.inherit-color {{ project.name }}
+                  .column.is-narrow
+                    img.category-image(:src="categoryImage")
+                .content(
+                  ref="projectContent",
+                  v-html="projectContent",
+                  @click="contentClick"
+                )
+                .tags
+                  .tag.is-white.knockout-text.has-font-weight-black(
+                    v-for="theme in project.themes"
+                  ) {{theme.name}}
+            .column
+              .content.what-is-this(v-html="aboutContent")
+    PageFooter
 </template>
 
 <script>
@@ -40,38 +41,39 @@ import marked from 'marked'
 import PrimaryHero from '@/components/PrimaryHero.vue'
 import PageFooter from '@/components/PageFooter.vue'
 
-import CategoryData from '@/data/categories.json'
-import ImageMap from '@/data/categoryImages'
+import { GETTER_CONTENT } from '@/const'
+import { projectCategory, categoryImage } from '@/utils'
+import { mapState } from 'vuex'
 
 export default {
   components: { PrimaryHero, PageFooter },
   computed: {
+    ...mapState('api', ['projects']),
+    ...mapState('config', ['categories']),
     projectId() {
       return this.$route.params.id
     },
     project() {
-      return this.$store.state.projects.find(p => p.id === this.projectId)
+      return this.projects && this.projects.find(p => p.id === this.projectId)
     },
     projectCrumb() {
       return this.project ? this.project.name : 'View Project'
     },
     category() {
-      return (
-        (this.project.category && CategoryData[this.project.category.name]) ||
-        CategoryData.mixed
-      )
+      return projectCategory(this.project, this.categories)
+    },
+    categoryImage() {
+      const { publicPath } = this.$store.state.config
+      return categoryImage(this.category, publicPath)
     },
     colorClass() {
       return [this.category && `is-${this.category.color}`]
-    },
-    categoryImage() {
-      return (this.category && ImageMap[this.category.id]) || ImageMap.mixed
     },
     projectContent() {
       return marked(this.project.desc)
     },
     aboutContent() {
-      return marked(this.$store.getters.getContent('about.short', '...'))
+      return marked(this.$store.getters[GETTER_CONTENT]('about.short', ''))
     }
   },
   methods: {
@@ -129,4 +131,8 @@ export default {
       color: inherit
       font-weight: bold
       text-decoration: underline
+
+    blockquote
+      border-left-color: rgba(255, 255, 255, 0.4)
+      background: rgba(0, 0, 0, 0.05)
 </style>

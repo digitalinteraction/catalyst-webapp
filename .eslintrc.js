@@ -7,12 +7,14 @@ module.exports = {
     'plugin:vue/recommended',
     'eslint:recommended',
     'standard',
-    'prettier'
+    '@vue/prettier'
   ],
-  plugins: ['standard', 'prettier'],
+  // plugins: ['standard', 'prettier'],
   rules: {
     'prettier/prettier': 'warn',
-    'no-console': 'off'
+    'no-console': 'off',
+    'no-debugger': 'off',
+    'no-unused-vars': 'warn'
   },
   parserOptions: {
     parser: 'babel-eslint'
