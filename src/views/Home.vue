@@ -32,6 +32,7 @@
 <script>
 import { mapState } from 'vuex'
 import debounce from 'lodash.debounce'
+import isEqual from 'lodash.isequal'
 
 import PrimaryHero from '@/components/PrimaryHero.vue'
 import PageFooter from '@/components/PageFooter.vue'
@@ -118,6 +119,8 @@ export default {
       this.setQuery(this.search, newFilters)
     },
     updateUrlParams(query) {
+      if (isEqual(query, this.$route.query)) return
+
       this.$router.replace({ name: ROUTE_HOME, query })
     }
   }
