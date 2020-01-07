@@ -3,9 +3,6 @@ import Router from 'vue-router'
 
 import Home from './views/Home.vue'
 import About from './views/About.vue'
-// import Browse from './views/Browse.vue'
-// import Search from './views/Search.vue'
-// import NeedsHelp from './views/NeedsHelp.vue'
 import Project from './views/Project.vue'
 
 import {
@@ -23,10 +20,19 @@ function makeMeta(pageName) {
   return { meta: { pageName } }
 }
 
+function scrollBehavior(to, from, savedPosition) {
+  if (to.name === ROUTE_PROJECT || to.name === ROUTE_ABOUT) {
+    return { x: 0, y: 0 }
+  } else {
+    return savedPosition
+  }
+}
+
 export function makeRouter(store) {
   const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
+    scrollBehavior,
     routes: [
       {
         path: '/',
