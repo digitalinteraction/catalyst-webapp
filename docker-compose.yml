@@ -12,37 +12,38 @@ services:
     restart: unless-stopped
     ports:
       - 6379:6379
-  
+
   # A mongo database for analytics
   mongo:
     image: mongo:3.6-stretch
     restart: unless-stopped
-    ports: 
+    ports:
       - 27017:27017
-  
+
   # Run the scraper once at startup
   one-time-scraper:
-    image: openlab/catalyst-trello-scraper:0.4.0
+    image: openlab.ncl.ac.uk:4567/catalyst/trello-scraper:v1.0.1
     depends_on:
       - redis
     env_file: .env.local
     environment:
       REDIS_URL: redis://redis
+      DEBUG: trello-scraper:*
     command: fetch --verbose
-  
+
   # An api to serve the projects in redis
   development-api:
-    image: openlab/catalyst-node-api:0.5.2
+    image: openlab.ncl.ac.uk:4567/catalyst/node-api:v1.0.0
     restart: unless-stopped
     depends_on:
       - one-time-scraper
       - mongo
     ports:
       - 3000:3000
+    env_file: .env.local
     environment:
-      NODE_ENV: development
       WEB_URL: http://localhost:8080
       REDIS_URL: redis://redis
       MONGO_URL: mongodb://mongo/catalyst
-      LOG_LEVEL: info
-
+      LOG_LEVEL: silly
+      ENABLE_SOCKETS: 'true'
