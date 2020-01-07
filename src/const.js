@@ -23,3 +23,5 @@ export const ACTION_REGISTER_SOCKET = 'analytics/registerSocket'
 export const ACTION_ON_OPEN_SOCKET = 'analytics/onOpenSocket'
 export const ACTION_EMIT_MESSAGE = 'analytics/emitMessage'
 export const ACTION_EMIT_ERROR = 'analytics/emitError'
+
+export const GETTER_PUBLIC_ASSET = 'config/publicAsset'

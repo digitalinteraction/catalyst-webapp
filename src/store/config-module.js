@@ -9,7 +9,12 @@ export default function(initialState = {}) {
     ...initialState
   })
 
-  const getters = {}
+  const getters = {
+    publicAsset: state => path => {
+      return `${process.env.BASE_URL}${state.publicPath}${path}`
+    }
+  }
+
   const mutations = {}
   const actions = {}
 

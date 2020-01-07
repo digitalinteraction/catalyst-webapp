@@ -5,7 +5,7 @@
       .container
         .navbar-brand
           router-link.navbar-item(to="/")
-            img(src="@/assets/brand.png")
+            img(:src="brandUrl")
         .navbar-end
           router-link.navbar-item(to="/about", active-class="is-active") About
   .hero-body(v-if="$slots.default")
@@ -14,6 +14,18 @@
   .hero-foot(v-if="$slots.foot")
     slot(name="foot")
 </template>
+
+<script>
+import { GETTER_PUBLIC_ASSET } from '@/const'
+
+export default {
+  computed: {
+    brandUrl() {
+      return this.$store.getters[GETTER_PUBLIC_ASSET]('brand.png')
+    }
+  }
+}
+</script>
 
 <style lang="sass">
 .primary-hero

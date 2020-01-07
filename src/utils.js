@@ -32,11 +32,6 @@ export function projectCategory(project, categoryConfig) {
   return categoryConfig._fallback
 }
 
-/** Generate a URL for a category image */
-export function categoryImage(category, subdir) {
-  return `${process.env.BASE_URL}${subdir}categories/${category.image}`
-}
-
 /** Create a new array with a value removed if it is present or added if not */
 export function toggleArrayValue(array, value) {
   const newArray = [...array]

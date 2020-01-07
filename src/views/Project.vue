@@ -41,8 +41,8 @@ import marked from 'marked'
 import PrimaryHero from '@/components/PrimaryHero.vue'
 import PageFooter from '@/components/PageFooter.vue'
 
-import { GETTER_CONTENT } from '@/const'
-import { projectCategory, categoryImage } from '@/utils'
+import { GETTER_CONTENT, GETTER_PUBLIC_ASSET } from '@/const'
+import { projectCategory } from '@/utils'
 import { mapState } from 'vuex'
 
 export default {
@@ -63,8 +63,9 @@ export default {
       return projectCategory(this.project, this.categories)
     },
     categoryImage() {
-      const { publicPath } = this.$store.state.config
-      return categoryImage(this.category, publicPath)
+      return this.$store.getters[GETTER_PUBLIC_ASSET](
+        `categories/${this.category.image}`
+      )
     },
     colorClass() {
       return [this.category && `is-${this.category.color}`]

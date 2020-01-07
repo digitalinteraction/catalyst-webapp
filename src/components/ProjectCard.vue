@@ -14,9 +14,9 @@ ColoredCard.project-card(:color="category.color", interactable)
 <script>
 import { mapState } from 'vuex'
 
-import { ROUTE_PROJECT } from '@/const'
+import { ROUTE_PROJECT, GETTER_PUBLIC_ASSET } from '@/const'
 
-import { getLabels, projectCategory, categoryImage } from '@/utils'
+import { getLabels, projectCategory } from '@/utils'
 import ColoredCard from './ColoredCard.vue'
 
 export default {
@@ -34,8 +34,9 @@ export default {
       return { name: ROUTE_PROJECT, params }
     },
     categoryImage() {
-      const { publicPath } = this.$store.state.config
-      return categoryImage(this.category, publicPath)
+      return this.$store.getters[GETTER_PUBLIC_ASSET](
+        `categories/${this.category.image}`
+      )
     },
     projectThemes() {
       return getLabels(this.project.labels, 'theme:')
