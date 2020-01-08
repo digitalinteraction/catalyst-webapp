@@ -3,6 +3,7 @@ const { resolve } = require('path')
 
 const { validateEnv } = require('valid-env')
 const dotenv = require('dotenv')
+const debug = require('debug')('catalyst:index')
 
 const { connectToRedis, makeExiter, makeRenderer } = require('./utils')
 const { makeServer } = require('./server')
@@ -16,6 +17,7 @@ validateEnv(['REDIS_URL', 'PUBLIC_URL', 'API_URL'])
 // Server entrypoint
 //
 ;(async () => {
+  debug(`start redisUrl=${process.env.REDIS_URL}`)
   try {
     const redisClient = await connectToRedis(process.env.REDIS_URL)
     const renderer = makeRenderer()

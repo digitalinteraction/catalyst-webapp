@@ -2,6 +2,7 @@ const { resolve } = require('path')
 
 const express = require('express')
 const favicon = require('serve-favicon')
+const debug = require('debug')('catalyst:server')
 
 const { renderVueApp, makeVueState } = require('./vue')
 const { generateMeta } = require('./utils')
@@ -15,12 +16,20 @@ function makeServer(redisClient, renderer) {
     TWITTER_HANDLE = ''
   } = process.env
 
+  debug(
+    `#makeServer public=${PUBLIC_URL} api=${API_URL} appName=${APP_NAME} appInfo=${APP_INFO}`
+  )
+
   const app = express()
   app.use(favicon('./public/favicon.png'))
   app.use('/js', express.static(resolve(__dirname, '../dist/js')))
   app.use('/img', express.static(resolve(__dirname, '../dist/img')))
   app.use('/css', express.static(resolve(__dirname, '../dist/css')))
   app.use('/public', express.static(resolve(__dirname, '../public')))
+
+  app.use((req, res, next) => {
+    debug(`${req.method}: ${req.path} params=${JSON.stringify(req.query)}`)
+  })
 
   // Handle a project route specifically
   app.get('/project/:id', async (req, res, next) => {
