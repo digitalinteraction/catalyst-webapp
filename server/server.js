@@ -29,6 +29,7 @@ function makeServer(redisClient, renderer) {
 
   app.use((req, res, next) => {
     debug(`${req.method}: ${req.path} params=${JSON.stringify(req.query)}`)
+    next()
   })
 
   // Handle a project route specifically
