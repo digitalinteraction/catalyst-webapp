@@ -69,7 +69,7 @@ function makeExiter(redisClient, httpServer) {
 }
 
 function connectToRedis(url) {
-  const client = redis.createClient(process.env.REDIS_URL)
+  const client = redis.createClient(url)
 
   return new Promise((resolve, reject) => {
     client.once('ready', () => resolve(client))
