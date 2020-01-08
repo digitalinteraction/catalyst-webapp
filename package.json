@@ -13,7 +13,8 @@
     "build:server": "WEBPACK_TARGET=node vue-cli-service build",
     "lint": "vue-cli-service lint",
     "prettier": "prettier --write '**/*.{js,json,css,md,vue}'",
-    "gen-readme-toc": "npx @robb_j/md-toc -i"
+    "gen-readme-toc": "npx @robb_j/md-toc -i",
+    "postversion": "git push --follow-tags"
   },
   "keywords": [
     "not-equal-catalyst",
