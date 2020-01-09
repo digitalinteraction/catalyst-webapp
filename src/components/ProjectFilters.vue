@@ -3,7 +3,7 @@
   h3.projectFilters-title
     //- button.collapse-button {{ isCollapsed ? '+' : '-' }}
     span Filter
-    button.button.is-text(@click="toggleFilters")
+    button.button.is-text.collapse-button(@click="toggleFilters")
       | {{ isCollapsed ? 'Show' : 'Hide' }} filters
 
   template(v-if="!isCollapsed")
@@ -22,7 +22,7 @@
             | {{ option.name }}
 
     .buttons.is-centered
-      button.button.is-text(@click="toggleFilters")
+      button.button.is-text.collapse-button(@click="toggleFilters")
         span Hide filters
 
 </template>
@@ -111,18 +111,6 @@ label.checkbox
   // justify-content: space-between
 
 .collapse-button
-  font-family: $family-monospace
-  padding: 0
-  // margin: 0 0.5em
-  margin-right: 0.5rem
-  font-size: 1em
-  background: white
-  outline: none
-  border: none
-  font-weight: 900
-  transform: scale(1.3)
-  cursor: pointer
-
   +tablet
     display: none
 </style>
