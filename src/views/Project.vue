@@ -31,7 +31,7 @@
                     v-for="theme in project.themes"
                   ) {{theme.name}}
             .column
-              .content.what-is-this(v-html="aboutContent")
+              ContentBlock.content.what-is-this(content-key="about.short")
     PageFooter
 </template>
 
@@ -40,13 +40,14 @@ import marked from 'marked'
 
 import PrimaryHero from '@/components/PrimaryHero.vue'
 import PageFooter from '@/components/PageFooter.vue'
+import ContentBlock from '@/components/ContentBlock.vue'
 
-import { GETTER_CONTENT, GETTER_PUBLIC_ASSET } from '@/const'
+import { GETTER_PUBLIC_ASSET } from '@/const'
 import { projectCategory } from '@/utils'
 import { mapState } from 'vuex'
 
 export default {
-  components: { PrimaryHero, PageFooter },
+  components: { PrimaryHero, PageFooter, ContentBlock },
   computed: {
     ...mapState('api', ['projects']),
     ...mapState('config', ['categories']),
@@ -72,9 +73,6 @@ export default {
     },
     projectContent() {
       return marked(this.project.desc)
-    },
-    aboutContent() {
-      return marked(this.$store.getters[GETTER_CONTENT]('about.short', ''))
     }
   },
   methods: {

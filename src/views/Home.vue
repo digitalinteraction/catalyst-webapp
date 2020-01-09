@@ -8,7 +8,7 @@
       h2.title.is-5.inherit-color
         label(for="searchField")
           SearchSvg.hero-title-icon
-          | Search for a project:
+          | {{ searchLabel || 'Search for a project' }}:
         input#searchField(type="search", :value="search" @input="onSearch")
   .page-expand
     section.section
@@ -20,10 +20,8 @@
           
           .column.is-three-quarters
             h3.title.is-3 Results
-            p.result-info
-              span(v-if="noResults") No projects matched your query
-              span(v-else-if="isFiltering") Showing results for your filters
-              span(v-else) Showing all projects
+            p.result-info(v-if="noResults")
+              | {{ noMatches || 'Nothing matched your query' }}
             ProjectGrid(:projects="filteredProjects")
   
   PageFooter
@@ -41,10 +39,14 @@ import ProjectFilters from '@/components/ProjectFilters.vue'
 import ProjectGrid from '@/components/ProjectGrid.vue'
 
 import SearchSvg from '@/assets/search.svg'
-import { makePredicate, serializeQuery, deserializeQuery } from '@/utils'
+import {
+  makePredicate,
+  serializeQuery,
+  deserializeQuery,
+  mapContent
+} from '@/utils'
 import {
   ROUTE_HOME,
-  GETTER_CONTENT,
   MUTATION_SEARCH,
   MUTATION_FILTERS,
   ACTION_EMIT_MESSAGE
@@ -79,6 +81,12 @@ export default {
     ...mapState('api', ['projects']),
     ...mapState('filter', ['search', 'filters']),
     ...mapState('config', { filterConfig: state => state.filters }),
+    ...mapContent({
+      title: 'home.title',
+      strapline: 'home.strapline',
+      searchLabel: 'home.searchLabel',
+      noMatches: 'home.noMatches'
+    }),
     filteredProjects() {
       if (!this.projects) return []
       const predicate = makePredicate(
@@ -96,12 +104,6 @@ export default {
     },
     noResults() {
       return this.filteredProjects.length === 0
-    },
-    title() {
-      return this.$store.getters[GETTER_CONTENT]('home.title')
-    },
-    strapline() {
-      return this.$store.getters[GETTER_CONTENT]('home.strapline')
     }
   },
   created() {

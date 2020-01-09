@@ -1,4 +1,5 @@
 import casex from 'casex'
+import { GETTER_CONTENT } from '@/const'
 
 // Types:
 // type Filters = { [idx: string]: string[] }
@@ -124,4 +125,16 @@ export function deserializeQuery(query) {
   }
 
   return [search, filters]
+}
+
+export function mapContent(mapping) {
+  const properties = {}
+
+  for (const [componentKey, contentKey] of Object.entries(mapping)) {
+    properties[componentKey] = function() {
+      return this.$store.getters[GETTER_CONTENT](contentKey)
+    }
+  }
+
+  return properties
 }
