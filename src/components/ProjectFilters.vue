@@ -1,21 +1,29 @@
 <template lang="pug">
 .projectFilters
-  h3.projectFilters-title Filter
+  h3.projectFilters-title
+    //- button.collapse-button {{ isCollapsed ? '+' : '-' }}
+    span Filter
+    button.button.is-text(@click="toggleFilters")
+      | {{ isCollapsed ? 'Show' : 'Hide' }} filters
 
-  template(v-for="filter in filters")
-    .field
-      h4.projectFilters-heading(@click="toggleFilter(filter)")
-        span {{ filter.title }}
-        button.collapse-button {{ isCollapsed(filter) ? '+' : '-' }}
-      div(v-show="!isCollapsed(filter)")
-        label.checkbox(v-for="option in getOptions(filter.prefix)" :key="option.id")
-          input.checkbox(
-            type="checkbox"
-            :value="option.id"
-            :checked="isChecked(filter, option)"
-            @change="e => onChange(e, filter, option)"
-          )
-          | {{ option.name }}
+  template(v-if="!isCollapsed")
+    template(v-for="filter in filters")
+      .field
+        h4.projectFilters-heading
+          span {{ filter.title }}
+        div
+          label.checkbox(v-for="option in getOptions(filter.prefix)" :key="option.id")
+            input.checkbox(
+              type="checkbox"
+              :value="option.id"
+              :checked="isChecked(filter, option)"
+              @change="e => onChange(e, filter, option)"
+            )
+            | {{ option.name }}
+
+    .buttons.is-centered
+      button.button.is-text(@click="toggleFilters")
+        span Hide filters
 
 </template>
 
@@ -35,7 +43,7 @@ export default {
     value: { type: Object, required: true }
   },
   data() {
-    return { collapsedFilters: [] }
+    return { isCollapsed: this.isMobile() }
   },
   computed: {
     ...mapState('api', ['labels']),
@@ -55,9 +63,6 @@ export default {
       let values = this.userFilters[filter.id]
       return values.includes(option.id)
     },
-    isCollapsed(filter) {
-      return this.collapsedFilters.includes(filter.id)
-    },
     onChange(event, filter, option) {
       const newFilter = toggleArrayValue(this.userFilters[filter.id], option.id)
 
@@ -66,8 +71,12 @@ export default {
         [filter.id]: newFilter
       })
     },
-    toggleFilter(filter) {
-      this.collapsedFilters = toggleArrayValue(this.collapsedFilters, filter.id)
+    isMobile() {
+      return window.innerWidth < 770
+    },
+    toggleFilters() {
+      if (!this.isMobile()) return
+      this.isCollapsed = !this.isCollapsed
     }
   }
 }
@@ -78,6 +87,8 @@ export default {
   margin-bottom: 0.2em
 
 .projectFilters-title
+  display: flex
+  justify-content: space-between
   font-size: $size-3
   +is-title
 
@@ -97,12 +108,13 @@ label.checkbox
 
 .projectFilters-heading
   display: flex
-  justify-content: space-between
-  cursor: pointer
+  // justify-content: space-between
 
 .collapse-button
   font-family: $family-monospace
-  padding: 0 0.5em
+  padding: 0
+  // margin: 0 0.5em
+  margin-right: 0.5rem
   font-size: 1em
   background: white
   outline: none
@@ -110,4 +122,7 @@ label.checkbox
   font-weight: 900
   transform: scale(1.3)
   cursor: pointer
+
+  +tablet
+    display: none
 </style>

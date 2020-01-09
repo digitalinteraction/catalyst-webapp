@@ -1,8 +1,6 @@
 <template lang="pug">
 .project-grid
-  .columns.is-multiline
-    .column.is-one-third(v-for="project in projects", :key="project.id", )
-      ProjectCard(:project="project")
+  ProjectCard(v-for="project in projects", :key="project.id" :project="project")
 </template>
 
 <script>
@@ -17,7 +15,14 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.column
-  display: flex
-  justify-content: stretch
+.project-grid
+  display: grid
+  grid: auto-flow / 1fr
+  grid-gap: $gap / 2
+
+  +tablet
+    grid-template-columns: 1fr 1fr
+
+  +desktop
+    grid-template-columns: 1fr 1fr 1fr
 </style>

@@ -92,11 +92,13 @@ export default {
 
 <style lang="sass">
 +mobile
-  .page.project section
+  .page.project .page-expand
     padding-left: 0
     padding-right: 0
   .content.what-is-this
     padding: 2em 1.5em
+  .crumbs
+    padding: 0.5rem 0.75rem 0
 
 +tablet
   .content.what-is-this
@@ -130,6 +132,9 @@ export default {
       color: inherit
       font-weight: bold
       text-decoration: underline
+
+    strong
+      color: inherit
 
     blockquote
       border-left-color: rgba(255, 255, 255, 0.4)
