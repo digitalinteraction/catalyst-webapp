@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Project from './views/Project.vue'
+import NotFound from './views/NotFound.vue'
 
 import {
   ROUTE_HOME,
@@ -13,8 +14,6 @@ import {
 } from '@/const'
 
 Vue.use(Router)
-
-// TODO: Add NotFound route
 
 function makeMeta(pageName) {
   return { meta: { pageName } }
@@ -51,6 +50,10 @@ export function makeRouter(store) {
         name: ROUTE_PROJECT,
         component: Project,
         ...makeMeta('Project')
+      },
+      {
+        path: '*',
+        component: NotFound
       }
     ]
   })

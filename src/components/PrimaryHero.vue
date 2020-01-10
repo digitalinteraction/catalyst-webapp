@@ -35,6 +35,10 @@ export default {
     color: $white
     background-image: linear-gradient(to left, #36C0CD, #1FC986)
 
+  &.is-not-found
+    color: $white
+    background-image: linear-gradient(to left, lighten($danger, 10%), #36C0CD)
+
   .hero-title-icon
     display: inline-block
     height: 1.75em

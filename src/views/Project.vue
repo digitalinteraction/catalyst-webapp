@@ -75,6 +75,12 @@ export default {
       return marked(this.project.desc)
     }
   },
+  created() {
+    if (!this.project) {
+      this.$router.push('/not-found')
+      return
+    }
+  },
   methods: {
     contentClick(e) {
       // if they clicked on an anchor, emit a project action
