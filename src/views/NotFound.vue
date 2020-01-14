@@ -34,3 +34,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.message
+  max-width: 540px
+</style>
