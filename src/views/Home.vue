@@ -20,8 +20,10 @@
           
           .column.is-three-quarters
             h3.title.is-3 Results
-            p.result-info(v-if="noResults")
-              | {{ noMatches || 'Nothing matched your query' }}
+            p.result-info(v-if="projects && projects.length === 0")
+              | {{ noResponses || 'No one has responded yet' }}
+            p.result-info(v-else-if="filteredProjects.length === 0")
+              | {{ noMatches || 'Nothing matched your filters' }}
             ProjectGrid(:projects="filteredProjects")
   
   PageFooter
@@ -85,7 +87,8 @@ export default {
       title: 'home.title',
       strapline: 'home.strapline',
       searchLabel: 'home.searchLabel',
-      noMatches: 'home.noMatches'
+      noMatches: 'home.noMatches',
+      noResponses: 'home.noResponses'
     }),
     filteredProjects() {
       if (!this.projects) return []
