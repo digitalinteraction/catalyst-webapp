@@ -214,6 +214,22 @@ There are files you can override with bind-mounts
 | `/app/public/opengraph.png` | The site's opengraph image e.g. for tweets |
 | `/app/public/categories/*`  | Custom category images                     |
 
+### Trello key-values
+
+| Key                | Usage                                           |
+| ------------------ | ----------------------------------------------- |
+| `home.title`       | The title on the homepage, shown after the hero |
+| `home.strapline`   | The strapline on the homepage, in the hero      |
+| `home.searchLabel` | The label next to the search field              |
+| `home.noMatches`   | A label when filtering returns no responses     |
+| `home.noResponses` | A label when there are no responses at all      |
+| `about.title`      | The title of the about page                     |
+| `about.subtitle`   | The subtitle of the about page                  |
+| `about.long`       | The content of the about page                   |
+| `about.short`      | The info displayed next to a project detail     |
+| `notFound.title`   | The title of the not found page                 |
+| `notFound.message` | The message of the not found page               |
+
 ## Future work
 
 - Move public mirror to `digitalinteraction/catalyst-webapp`
