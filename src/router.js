@@ -43,7 +43,7 @@ export function makeRouter(store) {
         path: '/about',
         name: ROUTE_ABOUT,
         component: About,
-        ...makeMeta('Home')
+        ...makeMeta('About')
       },
       {
         path: '/project/:id',
@@ -68,7 +68,7 @@ export function makeRouter(store) {
 
   // Update the title when each page is visited
   router.beforeEach((to, from, next) => {
-    let title = 'Not-Equal Catalyst'
+    let title = store.state.config.title || 'Catalyst'
 
     if (to.meta && to.meta.pageName) {
       title = `${to.meta.pageName} | ${title}`

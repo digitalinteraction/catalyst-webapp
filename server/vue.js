@@ -13,7 +13,7 @@ async function readConfig(filename, fallback = undefined) {
   }
 }
 
-async function makeVueState(db, apiUrl) {
+async function makeVueState(db, apiUrl, appName = 'Catalyst') {
   const [projects, labels, content] = await Promise.all([
     redisGetJson(db, 'cards'),
     redisGetJson(db, 'labels'),
@@ -30,7 +30,7 @@ async function makeVueState(db, apiUrl) {
   const filters = await readConfig('filters.json')
   const categories = await readConfig('categories.json')
 
-  const config = { publicPath: 'public/' }
+  const config = { publicPath: 'public/', title: appName }
   if (filters) config.filters = filters
   if (categories) config.categories = categories
 

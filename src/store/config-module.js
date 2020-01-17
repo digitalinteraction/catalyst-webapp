@@ -3,6 +3,7 @@ import filters from '@/data/filters.json'
 
 export default function(initialState = {}) {
   const state = () => ({
+    title: 'Catalyst',
     publicPath: '',
     categories,
     filters,

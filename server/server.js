@@ -39,7 +39,7 @@ function makeServer(redisClient, renderer) {
 
   // Handle a project route specifically
   app.get('/project/:id', async (req, res, next) => {
-    const state = await makeVueState(redisClient, API_URL)
+    const state = await makeVueState(redisClient, API_URL, APP_NAME)
 
     const project = state.api.projects.find(p => p.id === req.params.id)
 
@@ -64,7 +64,7 @@ function makeServer(redisClient, renderer) {
 
   // Handle every other route by rendering the vue app
   app.use('*', async (req, res) => {
-    const state = await makeVueState(redisClient, API_URL)
+    const state = await makeVueState(redisClient, API_URL, APP_NAME)
 
     // Generate opengraph metadata
     const meta = generateMeta(
