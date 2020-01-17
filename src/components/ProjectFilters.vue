@@ -72,6 +72,7 @@ export default {
       })
     },
     isMobile() {
+      if (typeof window === 'undefined') return 1024
       return window.innerWidth < 770
     },
     toggleFilters() {
