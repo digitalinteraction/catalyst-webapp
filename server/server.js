@@ -32,6 +32,11 @@ function makeServer(redisClient, renderer) {
     next()
   })
 
+  app.get('/form', (req, res, next) => {
+    if (!process.env.FORM_URL) return next()
+    else res.redirect(process.env.FORM_URL)
+  })
+
   // Handle a project route specifically
   app.get('/project/:id', async (req, res, next) => {
     const state = await makeVueState(redisClient, API_URL)
