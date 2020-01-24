@@ -6,7 +6,7 @@
     button.button.is-text.collapse-button(@click="toggleFilters")
       | {{ isCollapsed ? 'Show' : 'Hide' }} filters
 
-  template(v-if="!isCollapsed")
+  template(v-show="!isCollapsed")
     template(v-for="filter in filters")
       .field
         h4.projectFilters-heading
