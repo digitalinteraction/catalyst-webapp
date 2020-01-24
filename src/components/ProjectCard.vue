@@ -4,11 +4,15 @@ ColoredCard.project-card(:color="category.color", interactable)
     .category-image
       img(:src="categoryImage", :alt="category.name")
     h3.title.inherit-color.is-4.is-marginless {{ project.name }}
-    .tags
+    .tags(v-if="projectThemes")
       .tag.is-white.knockout-text.has-font-weight-black(
-        v-for="theme in projectThemes"
-        v-text="theme.name"
+        v-for="theme in projectThemes.slice(0, 5)"
       )
+        | {{ theme.name | ellipsify }}
+      .tag.is-white.knockout-text.has-font-weight-black(
+        v-if="projectThemes.length > numTags"
+      )
+        | + {{ projectThemes.length - numTags }} more
 </template>
 
 <script>
@@ -21,8 +25,19 @@ import ColoredCard from './ColoredCard.vue'
 
 export default {
   components: { ColoredCard },
+  filters: {
+    ellipsify(text) {
+      const max = 320
+      return text.length <= max ? text : text.slice(0, max) + '…'
+    }
+  },
   props: {
     project: { type: Object, required: true }
+  },
+  data() {
+    return {
+      numTags: 5
+    }
   },
   computed: {
     ...mapState('config', ['categories']),

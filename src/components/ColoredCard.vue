@@ -33,6 +33,15 @@ export default {
 
   +add-theme-colors
 
+  &.is-red .tag
+    color: $theme-red
+  &.is-green .tag
+    color: $theme-green
+  &.is-yellow .tag
+    color: $theme-yellow
+  &.is-blue .tag
+    color: $theme-blue
+
   &.is-interactable:hover
     transform: translateY(-3px)
 

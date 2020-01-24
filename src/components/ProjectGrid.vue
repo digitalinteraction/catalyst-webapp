@@ -26,3 +26,8 @@ export default {
   +desktop
     grid-template-columns: 1fr 1fr 1fr
 </style>
+
+<style lang="sass">
+.project-grid > *
+  overflow: hidden
+</style>
