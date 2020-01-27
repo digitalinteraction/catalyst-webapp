@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/unplatform/catalyst-vue-webapp/compare/v1.5.5...v1.6.0) (2020-01-27)
+
+
+### Features
+
+* add custom css support ([e09266f](https://github.com/unplatform/catalyst-vue-webapp/commit/e09266fbf9b493208fd0fa69ea84aba501076e00))
+
 ### [1.5.5](https://github.com/unplatform/catalyst-vue-webapp/compare/v1.5.4...v1.5.5) (2020-01-27)
 
 
