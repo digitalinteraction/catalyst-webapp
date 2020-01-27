@@ -14,7 +14,8 @@
     "lint": "vue-cli-service lint",
     "prettier": "prettier --write '**/*.{js,json,css,md,vue}'",
     "gen-readme-toc": "npx @robb_j/md-toc -i",
-    "postversion": "git push --follow-tags"
+    "postversion": "git push --follow-tags",
+    "release": "standard-version"
   },
   "keywords": [
     "not-equal-catalyst",
@@ -43,6 +44,8 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@robb_j/md-toc": "^0.3.1",
     "@types/lodash.isequal": "^4.5.5",
     "@vue/cli-plugin-babel": "^4.1.0",
@@ -68,12 +71,19 @@
     "pug-plain-loader": "^1.0.0",
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
+    "standard-version": "^7.1.0",
     "vue-svg-loader": "^0.15.0",
     "vue-template-compiler": "^2.6.10",
     "webpack-node-externals": "^1.7.2"
   },
   "gitHooks": {
+    "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
     "pre-commit": "lint-staged"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "lint-staged": {
     "*.{js,json,css,md,vue}": [
