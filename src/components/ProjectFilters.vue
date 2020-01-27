@@ -6,7 +6,7 @@
     button.button.is-text.collapse-button(@click="toggleFilters")
       | {{ isCollapsed ? 'Show' : 'Hide' }} filters
 
-  template(v-show="!isCollapsed")
+  template(v-if="!isCollapsed")
     template(v-for="filter in filters")
       .field
         h4.projectFilters-heading
@@ -43,7 +43,7 @@ export default {
     value: { type: Object, required: true }
   },
   data() {
-    return { isCollapsed: this.isMobile() }
+    return { isCollapsed: false }
   },
   computed: {
     ...mapState('api', ['labels']),
@@ -54,6 +54,9 @@ export default {
         ...cloneFilters(this.value)
       }
     }
+  },
+  mounted() {
+    this.isCollapsed = this.isMobile()
   },
   methods: {
     getOptions(prefix) {
