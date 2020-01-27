@@ -60,7 +60,9 @@ export default {
   },
   methods: {
     getOptions(prefix) {
-      return getLabels(this.labels, prefix)
+      const labels = getLabels(this.labels, prefix)
+      labels.sort((a, b) => a.name.localeCompare(b.name))
+      return labels
     },
     isChecked(filter, option) {
       let values = this.userFilters[filter.id]
