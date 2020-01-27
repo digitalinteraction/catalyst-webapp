@@ -43,6 +43,10 @@ async function renderVueApp(res, renderer, url, context) {
   context.url = url
   context.meta = context.meta || ''
 
+  if (process.env.CUSTOM_STYLES) {
+    context.meta += `<link rel="stylesheet" href="${process.env.CUSTOM_STYLES}">`
+  }
+
   try {
     res.end(await renderer.renderToString(context))
   } catch (error) {

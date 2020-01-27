@@ -68,6 +68,7 @@ There are some optional variables too:
 | APP_NAME       | Set the app's name, used in opengraph and as the window title |
 | APP_INFO       | Set the app's description, used in opengraph                  |
 | TWITTER_HANDLE | The twitter handle of the project (used in opengraph)         |
+| CUSTOM_STYLES  | A url to a custom css file to load                            |
 
 There are files you can override with bind-mounts.
 
