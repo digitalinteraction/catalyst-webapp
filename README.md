@@ -8,22 +8,142 @@ It is a [Vue.js](https://vuejs.org/) project written in JavaScript,
 
 <!-- toc-head -->
 
-## Table of Contents
+## Table of contents
 
+- [Table of Contents](#table-of-contents)
+- [Usage](#usage)
+  - [Environment variables](#environment-variables)
+  - [Categorisation file](#categorisation-file)
+  - [Filters file](#filters-file)
+  - [Trello key-values](#trello-key-values)
 - [Development](#development)
   - [Setup](#setup)
   - [Regular use](#regular-use)
   - [Irregular use](#irregular-use)
+  - [Commits](#commits)
   - [Code Structure](#code-structure)
   - [Webpack build](#webpack-build)
   - [Code formatting](#code-formatting)
 - [Deployment](#deployment)
   - [Building the image](#building-the-image)
-  - [Using the image](#using-the-image)
-  - [Environment variables](#environment-variables)
 - [Future work](#future-work)
 
 <!-- toc-tail -->
+
+## Usage
+
+This repo has a Docker image which you can use to run the Vue SSR server which serves the webapp assets.
+The server runs on `8080` inside the container, so you'll need to map that for external traffic.
+
+Here's an example with docker-compose:
+
+```yml
+version: '3'
+
+services:
+  web-ui:
+    image: openlab.ncl.ac.uk:4567/catalyst/vue-webapp:0.1.0
+    ports:
+      - 8080:8080
+    environment:
+      PUBLIC_URL: https://catalyst.not-equal.tech
+      API_URL: https://api.catalyst.not-equal.tech
+      REDIS_URL: redis://your_redis_url
+```
+
+### Environment variables
+
+There are some required environment variables, shown below.
+
+| Variable   | Description                                           |
+| ---------- | ----------------------------------------------------- |
+| REDIS_URL  | The redis connection uri                              |
+| PUBLIC_URL | Where the app is, used for generating opengraph meta  |
+| API_URL    | Where the api is, passed into the webapp through vuex |
+
+There are some optional variables too:
+
+| Variable       | Description                                                   |
+| -------------- | ------------------------------------------------------------- |
+| APP_NAME       | Set the app's name, used in opengraph and as the window title |
+| APP_INFO       | Set the app's description, used in opengraph                  |
+| TWITTER_HANDLE | The twitter handle of the project (used in opengraph)         |
+
+There are files you can override with bind-mounts.
+
+| Path                                 | File                                                   |
+| ------------------------------------ | ------------------------------------------------------ |
+| `/app/public/favicon.png`            | The site's favicon                                     |
+| `/app/public/opengraph.png`          | The site's opengraph image e.g. for tweets             |
+| `/app/public/config/categories.json` | Categorisation file, [see below](#categorisation-file) |
+| `/app/public/config/filters.json`    | Filters file [see below](#filters-file)                |
+| `/app/public/categories/*`           | Custom category images (map to from categories.json)   |
+
+### Categorisation file
+
+This file is used to define how card's are categorised in the interface.
+You can specify what tags to map a category to and how that category looks.
+It should be a JSON object like:
+
+```json
+{
+  "algorithms": {
+    "id": "algorithms",
+    "name": "Algorithmic Social Justice",
+    "image": "algorithms.png",
+    "color": "red",
+    "match": ["call:algorithmic-social-justice"]
+  }
+}
+```
+
+- `id` should be a unique identifier for the category
+- `name` is the name it is presented as
+- `image` will resolve to files inside `/app/public/categories`
+- `color` can be `red`, `yellow`, `blue` or `green`
+- `match` is a set of labels that mean a card is part of this category
+- You can also set a `_fallback` category which is used when a category didn't match
+
+### Filters file
+
+This file is used to define the filters that you can use in the interface.
+It should be a JSON array in the form:
+
+```json
+[
+  {
+    "id": "call",
+    "title": "Call for proposal",
+    "prefix": "call:",
+    "logic": "or"
+  }
+]
+```
+
+- `id` should be a unique identifier for the filter
+- `title` is how the filter is presented in the interface
+- `prefix` is a prefix for tags which this filter by
+- `logic` is how the filter should behave, either `and` or `or`
+
+### Trello key-values
+
+You can also set these vaules from the Trello `CONTENT_LIST_ID`
+and they will tweak bits of text in the interface.
+These are all optional.
+
+| Key                  | Usage                                           |
+| -------------------- | ----------------------------------------------- |
+| `[home.title]`       | The title on the homepage, shown after the hero |
+| `[home.strapline]`   | The strapline on the homepage, in the hero      |
+| `[home.searchLabel]` | The label next to the search field              |
+| `[home.noMatches]`   | A label when filtering returns no responses     |
+| `[home.noResponses]` | A label when there are no responses at all      |
+| `[about.title]`      | The title of the about page                     |
+| `[about.subtitle]`   | The subtitle of the about page                  |
+| `[about.long]`       | The content of the about page                   |
+| `[about.short]`      | The info displayed next to a project detail     |
+| `[notFound.title]`   | The title of the not found page                 |
+| `[notFound.message]` | The message of the not found page               |
 
 ## Development
 
@@ -103,6 +223,13 @@ npm run build:client
 node server/index.js
 ```
 
+### Commits
+
+All commits to this repo must follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+This ensures changes are structured and means the [CHANGELOG.md](/CHANGELOG.md) can be automatically generated.
+
+This standard is enforced through a `commit-msg` hook using [yorkie](https://www.npmjs.com/package/yorkie).
+
 ### Code Structure
 
 | Folder         | Contents                                          |
@@ -159,83 +286,20 @@ It pushes these docker images to the GitLab registry of the repo.
 A slight nuance is that it will replace a preceding `v` in tag names, formatting `v1.0.0` to `1.0.0`.
 
 ```bash
-# Deploy a new version of the CLI
-npm version # major | minor | patch
-git push --tags
-open https://openlab.ncl.ac.uk/gitlab/catalyst/vue-webapp/pipelines
+# Generate a new release
+# -> Generates a new version based on the commits since the last version
+# -> Generates the CHANGELOG.md based on those commits
+# -> There is a "preversion" script to lint & run tests
+npm run release
+
+# Push the new version
+# -> The GitLab CI will build a new docker image for it
+git push --follow-tags
 ```
-
-### Using the image
-
-With this docker image you can easily deploy and run the vue-ssr server using docker-compose.
-The express server runs on `8080` inside the container, so you'll need to map that for external traffic.
-
-Here's an example with docker-compose:
-
-> For more info see [catalyst-example-stack](https://github/com/unplatform/catalyst-example-stack)
-
-```yml
-version: '3'
-
-services:
-  web-ui:
-    image: openlab.ncl.ac.uk:4567/catalyst/vue-webapp:0.1.0
-    ports:
-      - 8080:8080
-    environment:
-      PUBLIC_URL: https://catalyst.not-equal.tech
-      API_URL: https://api.catalyst.not-equal.tech
-      REDIS_URL: redis://your_redis_url
-```
-
-### Environment variables
-
-There are some required environment variables, shown below.
-
-| Variable   | Description                                           |
-| ---------- | ----------------------------------------------------- |
-| REDIS_URL  | The redis connection uri                              |
-| PUBLIC_URL | Where the app is, used for generating opengraph meta  |
-| API_URL    | Where the api is, passed into the webapp through vuex |
-
-There are some optional variables too:
-
-| Variable       | Description                                           |
-| -------------- | ----------------------------------------------------- |
-| APP_NAME       | Set the app's name, used in opengraph                 |
-| APP_INFO       | Set the app's description, used in opengraph          |
-| TWITTER_HANDLE | The twitter handle of the project (used in opengraph) |
-
-There are files you can override with bind-mounts
-
-| Path                        | File                                       |
-| --------------------------- | ------------------------------------------ |
-| `/app/public/favicon.png`   | The site's favicon                         |
-| `/app/public/opengraph.png` | The site's opengraph image e.g. for tweets |
-| `/app/public/categories/*`  | Custom category images                     |
-
-### Trello key-values
-
-| Key                | Usage                                           |
-| ------------------ | ----------------------------------------------- |
-| `home.title`       | The title on the homepage, shown after the hero |
-| `home.strapline`   | The strapline on the homepage, in the hero      |
-| `home.searchLabel` | The label next to the search field              |
-| `home.noMatches`   | A label when filtering returns no responses     |
-| `home.noResponses` | A label when there are no responses at all      |
-| `about.title`      | The title of the about page                     |
-| `about.subtitle`   | The subtitle of the about page                  |
-| `about.long`       | The content of the about page                   |
-| `about.short`      | The info displayed next to a project detail     |
-| `notFound.title`   | The title of the not found page                 |
-| `notFound.message` | The message of the not found page               |
 
 ## Future work
 
-- Move public mirror to `digitalinteraction/catalyst-webapp`
 - Push docker images to dockerhub
-- Use [conventionalcommits](https://www.conventionalcommits.org/en/v1.0.0/)
-  and setup [commitlint](https://www.npmjs.com/package/@commitlint/cli)
 
 ---
 
