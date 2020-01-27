@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/unplatform/catalyst-vue-webapp/compare/v1.6.0...v1.7.0) (2020-01-27)
+
+
+### Features
+
+* sort filters alphabetically ([7d880e4](https://github.com/unplatform/catalyst-vue-webapp/commit/7d880e4db4fdd34168c11cb1a0be88cd28b27b00))
+
 ## [1.6.0](https://github.com/unplatform/catalyst-vue-webapp/compare/v1.5.5...v1.6.0) (2020-01-27)
 
 
