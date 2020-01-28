@@ -65,6 +65,7 @@ export default {
   },
   data() {
     return {
+      isMounted: false,
       onSearch: debounce(event => {
         this.$store.commit(MUTATION_SEARCH, event.target.value)
         this.setQuery(event.target.value, this.filters)
@@ -118,14 +119,20 @@ export default {
       this.$store.commit(MUTATION_FILTERS, filters)
     }
   },
+  mounted() {
+    this.isMounted = true
+  },
+  destroyed() {
+    this.isMounted = false
+  },
   methods: {
     onFilter(newFilters) {
       this.$store.commit(MUTATION_FILTERS, newFilters)
       this.setQuery(this.search, newFilters)
     },
     updateUrlParams(query) {
+      if (!this.isMounted) return
       if (isEqual(query, this.$route.query)) return
-
       this.$router.replace({ name: ROUTE_HOME, query })
     }
   }
