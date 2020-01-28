@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.2](https://github.com/unplatform/catalyst-vue-webapp/compare/v1.7.1...v1.7.2) (2020-01-28)
+
+
+### Bug Fixes
+
+* update mixed category logo ([0d01e0e](https://github.com/unplatform/catalyst-vue-webapp/commit/0d01e0ede660718d862a1488ee37d90b6cd5e721))
+
 ### [1.7.1](https://github.com/unplatform/catalyst-vue-webapp/compare/v1.7.0...v1.7.1) (2020-01-28)
 
 
