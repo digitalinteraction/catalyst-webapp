@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://github.com/unplatform/catalyst-vue-webapp/compare/v1.7.0...v1.7.1) (2020-01-28)
+
+
+### Bug Fixes
+
+* fix home navigation bug ([f64a75a](https://github.com/unplatform/catalyst-vue-webapp/commit/f64a75a69f8556903693d1553fe2e80197731f54))
+* fix hydration lag so window.title is correct ([8e34bb6](https://github.com/unplatform/catalyst-vue-webapp/commit/8e34bb64bad3958d94c57be8bdae8fa4f6965fc2))
+
 ## [1.7.0](https://github.com/unplatform/catalyst-vue-webapp/compare/v1.6.0...v1.7.0) (2020-01-27)
 
 
