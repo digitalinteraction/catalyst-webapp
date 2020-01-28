@@ -20,27 +20,25 @@ export default {
     }
   },
   mounted() {
-    // Wait for next tick to allow for hydration
-    this.$nextTick(() => {
-      const { projects, labels, content } = this.$store.state.api
+    // Check for and fetch resources if needed
+    const { projects, labels, content } = this.$store.state.api
 
-      // Fetch content if not hydrated
-      if (!projects) this.$store.dispatch(ACTION_FETCH_PROJECTS)
-      if (!labels) this.$store.dispatch(ACTION_FETCH_LABELS)
-      if (!content) this.$store.dispatch(ACTION_FETCH_CONTENT)
+    // Fetch content if not hydrated
+    if (!projects) this.$store.dispatch(ACTION_FETCH_PROJECTS)
+    if (!labels) this.$store.dispatch(ACTION_FETCH_LABELS)
+    if (!content) this.$store.dispatch(ACTION_FETCH_CONTENT)
 
-      // Create a websocket if they are available
-      if (typeof WebSocket !== 'undefined') {
-        this.$store.dispatch(
-          ACTION_REGISTER_SOCKET,
-          new WebSocket(this.socketUrl(this.$store.state.api.url))
-        )
+    // Create a websocket if they are available
+    if (typeof WebSocket !== 'undefined') {
+      this.$store.dispatch(
+        ACTION_REGISTER_SOCKET,
+        new WebSocket(this.socketUrl(this.$store.state.api.url))
+      )
 
-        // Emit the first page view (as this occurs after router.beforeEach)
-        const path = location.pathname
-        this.$store.dispatch(ACTION_EMIT_MESSAGE, { type: 'page_view', path })
-      }
-    })
+      // Emit the first page view (as this occurs after router.beforeEach)
+      const path = location.pathname
+      this.$store.dispatch(ACTION_EMIT_MESSAGE, { type: 'page_view', path })
+    }
   },
   methods: {
     socketUrl(httpUrl) {

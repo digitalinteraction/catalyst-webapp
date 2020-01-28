@@ -9,8 +9,6 @@ import makeConfigModule from './config-module'
 Vue.use(Vuex)
 
 export function makeStore(initialState = {}) {
-  // const apiClient = makeApiClient()
-
   return new Vuex.Store({
     modules: {
       api: makeApiModule(initialState.api),
