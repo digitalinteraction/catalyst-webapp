@@ -32,7 +32,7 @@
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "marked": "^0.7.0",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "serve-favicon": "^2.5.0",
     "stoppable": "^1.1.0",
     "valid-env": "^1.0.1",
