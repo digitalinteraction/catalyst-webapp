@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.7.2",
   "description": "A Vue web app for browsing, searching and viewing Not-Equal Catalyst projects",
-  "repository": "unplatform/catalyst-vue-webapp",
+  "repository": "digitalinteraction/catalyst-webapp",
   "author": "Rob Anderson (https://r0b.io)",
   "license": "MIT",
   "scripts": {
