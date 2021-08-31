@@ -42,7 +42,7 @@ version: '3'
 
 services:
   web-ui:
-    image: openlab.ncl.ac.uk:4567/catalyst/vue-webapp:0.1.0
+    image: ghcr.io/digitalinteraction/catalyst-webapp
     ports:
       - 8080:8080
     environment:
@@ -50,6 +50,8 @@ services:
       API_URL: https://api.catalyst.not-equal.tech
       REDIS_URL: redis://your_redis_url
 ```
+
+> Get the [latest version](https://github.com/digitalinteraction/catalyst-webapp/pkgs/container/catalyst-webapp)
 
 ### Environment variables
 
@@ -300,8 +302,4 @@ git push --follow-tags
 
 ## Future work
 
-- Push docker images to dockerhub
-
----
-
-> The code on https://github.com/unplatform/catalyst-vue-webapp is a mirror of https://openlab.ncl.ac.uk/gitlab/catalyst/vue-webapp
+- n/a
